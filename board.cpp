@@ -30,16 +30,39 @@ void board::paintEvent (QPaintEvent * event)
 		painter.drawLine(x, rect.top(), x, rect.bottom());
 	}
 
-	if (isStarted) curPiece.drawFigure(painter, rect.right() - squaresWidth(curCol), rect.top() + squaresHeight(curRow), squaresWidth(1), squaresHeight(1));
+    if (isStarted) drawFigure(painter, curPiece);
 
 	lines_type mask;
 	for (index_type r = 0; r < BOARD_HEIGHT; ++r) {
 		mask = 1;
 		for (index_type c = 0; c < BOARD_WIDTH; ++c) {
-			if (lines[r] & mask) curPiece.drawSquare(painter, piece::DRAW_COLOR, rect.right() - squaresWidth(c), rect.top() + squaresHeight(r), squaresWidth(1), squaresHeight(1));
+			if (lines[r] & mask) drawBoardCell(painter, piece::DRAW_COLOR, c, r);
 			mask <<= 1;
 		}
 	}
+}
+
+void board::drawFigure (QPainter & painter, const piece & figure) {
+    for (index_type row = 0; row < piece::FIELD_SIZE; ++row)
+        for (index_type col = 0; col < piece::FIELD_SIZE; ++col)
+            if (figure.check_point(row, col)) drawBoardCell(painter, piece::DRAW_COLOR, curCol + col, curRow + row);
+}
+
+void board::drawBoardCell (QPainter & painter, const QColor & color, int x, int y)
+{
+    QRect rect = contentsRect();
+    int w = squaresWidth(1);
+    int h = squaresHeight(1);
+    x = rect.left() + squaresWidth(BOARD_WIDTH - x - 1);
+    y = rect.top() + squaresHeight(y);
+    
+    painter.fillRect(x + 1, y + 1, w - 2, h - 2, color);
+    painter.setPen(color.light());
+    painter.drawLine(x, y + h - 2, x, y);
+    painter.drawLine(x, y, x + w - 1, y);
+    painter.setPen(color.dark());
+    painter.drawLine(x, y + h - 1, x + w - 1, y + h - 1);
+    painter.drawLine(x + w - 1, y + h - 1, x + w - 1, y + 1);
 }
 
 void board::start ()
@@ -178,9 +201,9 @@ void board::clearData () {
 }
 
 int board::squaresWidth(index_type count) {
-	return count * (static_cast<double>(contentsRect().width()) / BOARD_WIDTH);
+    return count * (static_cast<qreal>(contentsRect().width()) / BOARD_WIDTH);
 }
 
 int board::squaresHeight(index_type count) {
-	return count * (static_cast<double>(contentsRect().height()) / BOARD_HEIGHT);
+    return count * (static_cast<qreal>(contentsRect().height()) / BOARD_HEIGHT);
 }

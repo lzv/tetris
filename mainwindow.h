@@ -1,7 +1,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QWidget>
+#ifdef HAVE_QT5
+	#include <QtWidgets>
+#else 
+	#include <QWidget>
+#endif
 
 class QLCDNumber;
 class QLabel;

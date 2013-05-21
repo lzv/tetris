@@ -29,8 +29,8 @@ class piece {
 		index_type getDcols () const;				// Ширина кусочка.
 		index_type getDrows () const;				// Высота кусочка.
 		lines_type getLine (index_type) const;		// Получить линию поля кусочка.
-		bool check_point (index_type, index_type);	// Проверить, есть ли пиксел в указанной ячейке поля.
-		bool check_point (const QPoint &);			// Аналогично, x - строка, y - столбец.
+		bool check_point (index_type, index_type) const;	// Проверить, есть ли пиксел в указанной ячейке поля.
+		bool check_point (const QPoint &) const;			// Аналогично, x - строка, y - столбец.
 		void setTrueRandomFigure ();				// Получение случайного кусочка из всех возможных.
 		void setRandomFigure ();					// Получение случайной фигуры без "оторванных" пикселов.
 		void drawFigure (QPainter &, int, int, int, int);	// Рисуем весь кусочек. Координаты правого верхнего угла.

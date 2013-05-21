@@ -44,14 +44,14 @@ piece::lines_type piece::getLine(index_type ind) const {
 	return ind >= FIELD_SIZE ? 0 : lines[ind];
 }
 
-bool piece::check_point(index_type row, index_type col) {
+bool piece::check_point(index_type row, index_type col) const {
 	if (row >= FIELD_SIZE or col >= FIELD_SIZE) return false;
 	lines_type mask = 1;
 	mask <<= col;
 	return lines[row] & mask;
 }
 
-bool piece::check_point(const QPoint & p) {
+bool piece::check_point(const QPoint & p) const {
 	return check_point(p.x(), p.y());
 }
 

@@ -1,3 +1,7 @@
+#ifdef HAVE_QT5
+	#include <QApplication>
+#endif
+
 #include <QtGui>
 #include "mainwindow.h"
 #include "piece.h"
@@ -6,8 +10,10 @@
 int main(int argc, char *argv[])
 {
 	QTextCodec * codec = QTextCodec::codecForName("UTF-8");
+#ifndef HAVE_QT5
 //	QTextCodec::setCodecForTr(codec);
 	QTextCodec::setCodecForCStrings(codec);
+#endif
 	QTextCodec::setCodecForLocale(codec);
 
 	qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));

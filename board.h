@@ -54,6 +54,9 @@ class board : public QFrame
 		void clearData ();					// Очистка данных поля.
 		int squaresWidth(index_type);		// Возвращает ширину указанного количества ячеек поля. Подход с получением ширины одного и умножением на количество здесь не используется, что бы избежать погрешности округления.
 		int squaresHeight(index_type);		// Аналогично для высоты.
+        
+        void drawBoardCell (QPainter &, const QColor &, int x, int y); // Рисует квадратик поля, "пиксел". Координаты справа вверху, от 0, самого квадратика, а не пикселов.
+        void drawFigure(QPainter &, const piece &);
 };
 
 #endif // BOARD_H
